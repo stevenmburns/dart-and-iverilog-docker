@@ -1,0 +1,14 @@
+FROM ubuntu:20.04
+
+RUN apt update \
+    && DEBIAN_FRONTEND=noninteractive TZ=US/Pacific apt-get install -y tzdata \
+    && apt install -yq build-essential git autoconf gperf flex bison
+
+WORKDIR /icarus
+
+RUN git clone https://github.com/steveicarus/iverilog \
+    && cd iverilog \
+    && sh autoconf.sh \
+    && ./configure --prefix=/icarus_install \
+    && make \
+    && make install
